@@ -1,7 +1,7 @@
 {
-  "name": "obscura",
+  "name": "travelbuddy-client",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,10 +11,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.7",
-<<<<<<< HEAD:package.json
-=======
     "bootstrap-icons": "^1.13.1",
->>>>>>> f550cbabf9331ab032677a3622d22dbf037d4734:client/package.json
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0"
