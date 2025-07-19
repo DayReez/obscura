@@ -14,11 +14,11 @@ function Suggestions() {
             
             {/* First Card Body */}
             <Card.Body className="p-4"> {/* Increased padding */}
-              <Card.Title className="fs-5 fw-bold">Special title treatment</Card.Title>
+              <Card.Title className="fs-5 fw-bold">Antartica Tour package</Card.Title>
               <Card.Text className="mb-3"> {/* Added bottom margin */}
-                With supporting text below as a natural lead-in to additional content.
+                12 days tour package to Antartica with all the amenities included. Experience the beauty of the frozen continent like never before.
               </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
+              <Button variant="primary">Book now</Button>
             </Card.Body>
             
             {/* Visual Separator */}
@@ -26,11 +26,11 @@ function Suggestions() {
             
             {/* Second Card Body */}
             <Card.Body className="p-4"> {/* Matching padding */}
-              <Card.Title className="fs-5 fw-bold">Special title treatment</Card.Title>
+              <Card.Title className="fs-5 fw-bold">America tour</Card.Title>
               <Card.Text className="mb-3">
-                With supporting text below as a natural lead-in to additional content.
+                18 days tour package to America with all the amenities included. Explore the diverse landscapes and cultures of the United States.
               </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
+              <Button variant="primary">Book now</Button>
             </Card.Body>
 
           </Card>
