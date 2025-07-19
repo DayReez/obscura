@@ -1,33 +1,27 @@
-// server/index.js
-
 const express = require('express');
-const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 const cors = require('cors');
-const connectDB = require('./config/db');
+const packageRoutes = require('./routes/package');
+app.use('/api/packages', packageRoutes);
 
-// Load environment variables from .env file
-dotenv.config();
-
-// Connect to MongoDB
-connectDB();
+require('dotenv').config(); // If using .env file
 
 const app = express();
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Sample Route (for testing)
-app.get('/', (req, res) => {
-  res.send('🌍 Welcome to the TravelBuddy API');
-});
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/travelbuddy', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB connected"))
+.catch((err) => console.error("Mongo error:", err));
 
-// Add your other routes here like:
-// app.use('/api/auth', require('./routes/auth'));
-// app.use('/api/packages', require('./routes/packages'));
+// Routes
+const authRoutes = require('./routes/auth');
+app.use('/api', authRoutes);
 
+// Start server
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running at http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
