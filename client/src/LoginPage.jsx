@@ -1,6 +1,39 @@
+import React, { useState } from 'react';
 import backgroundImage from './assets/arcane wallpaper 1.png'; // Adjust path if needed
 
 function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('http://localhost:5000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('✅ Login successful!');
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userRole', data.role);
+        // Redirect user or update UI here if needed
+      } else {
+        alert(`❌ ${data.error || 'Login failed'}`);
+      }
+
+    } catch (err) {
+      alert('🚨 Error connecting to server');
+      console.error(err);
+    }
+  };
+
   return (
     <div
       className="d-flex justify-content-center align-items-center vh-100"
@@ -16,7 +49,7 @@ function LoginPage() {
         style={{
           width: '100%',
           maxWidth: '450px',
-          background: 'rgba(255, 255, 255, 0.15)', // semi-transparent white
+          background: 'rgba(255, 255, 255, 0.15)',
           border: '1px solid rgba(255, 255, 255, 0.2)',
           backdropFilter: 'blur(10px)',
           WebkitBackdropFilter: 'blur(10px)',
@@ -24,16 +57,31 @@ function LoginPage() {
         }}
       >
         <h2 className="mb-4 text-center text-white">Login</h2>
-        <form>
-
+        <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label text-white">Email address</label>
-            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email" />
+            <label htmlFor="email" className="form-label text-white">Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
 
           <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label text-white">Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword1" placeholder='Enter password'/>
+            <label htmlFor="password" className="form-label text-white">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
 
           <button type="submit" className="btn btn-primary w-100">Submit</button>

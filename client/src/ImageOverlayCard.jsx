@@ -4,11 +4,11 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import image from ".assets/image.png";
+import image from "./assets/image.png";
 
-function ImageOverlayCard() {
-  const cardTitle = "Explore the Mountains";
-  const overlayText = "Your next adventure awaits!";
+function ImageOverlayCard({ companyName, companyLocation }) {
+  const cardTitle = companyName || "Explore the Mountains";
+  const overlayText = companyLocation || "Your next adventure awaits!";
   const descriptionText = "Discover breathtaking views and serene trails. This destination offers an unforgettable experience for nature lovers and adventurers alike. Plan your trip today!";
 
   return (
@@ -18,7 +18,7 @@ function ImageOverlayCard() {
           <Card className="shadow-sm border">
 
             {/* Image section with overlay */}
-            <div className="position-relative"> {/* Container for image and overlay */}
+            <div className="position-relative">
               <Card.Img
                 src={image}
                 alt="Card image"
@@ -27,26 +27,25 @@ function ImageOverlayCard() {
               />
 
               <Card.ImgOverlay
-                className="d-flex flex-column justify-content-end align-items-start p-4" // Changed alignment and padding
+                className="d-flex flex-column justify-content-end align-items-start p-4"
                 style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
               >
-                <Card.Title className="fs-3 fw-bold text-white mb-2"> {/* Removed text-center, added mb-2 */}
-                  {overlayText}
+                <Card.Title className="fs-3 fw-bold text-white mb-2">
+                  {cardTitle}
                 </Card.Title>
-                <Card.Text className="text-white mb-3"> {/* Removed text-center, added mb-3 */}
-                  A journey of a thousand miles begins with a single step.
+                <Card.Text className="text-white mb-3">
+                  {overlayText}
                 </Card.Text>
-                {/* <Button variant="light">Learn More</Button> */}
               </Card.ImgOverlay>
             </div>
 
-            {/* Description section with white background */}
-            <Card.Body className="bg-white text-dark p-4"> {/* Added bg-white and padding */}
-              <Card.Title>{cardTitle}</Card.Title>
+            {/* Description section */}
+            <Card.Body className="bg-white text-dark p-4">
+              {/* <Card.Title>{cardTitle}</Card.Title> */}
               <Card.Text>
                 {descriptionText}
               </Card.Text>
-              <Button variant="primary">Book Now</Button>
+              {/* <Button variant="primary">Book Now</Button> */}
             </Card.Body>
 
           </Card>
