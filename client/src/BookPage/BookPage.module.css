@@ -1,61 +1,22 @@
-.book-page-container {
+.bookPageContainer {
   padding: 40px;
   text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.book-now-btn {
+.confirmBtn {
   padding: 12px 24px;
   font-size: 18px;
-  background-color: #007bff;
+  background-color: green;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  margin-top: 20px;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6); /* translucent dark */
+.bookingActions {
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.2);
-}
-
-.modal-actions {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-around;
-}
-
-.confirm-btn, .cancel-btn {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.confirm-btn {
-  background-color: green;
-  color: white;
-}
-
-.cancel-btn {
-  background-color: gray;
-  color: white;
 }
