@@ -1,11 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './HomePage.jsx';
-import LoginPage from './LoginPage.jsx';
-import RegisterPage from './RegisterPage.jsx';
+import LoginPage from './LoginUserPage.jsx';
+import RegisterPage from './RegisterUserPage.jsx';
 import Pagetwo from './Pagetwo.jsx';
 import BookPage from './BookPage/BookPage.jsx'; // ✅ BookPage route added
 import BookPageConfirm from './BookPageConfirm/BookPageConfirm.jsx';
 import LandingPage from './LandingPage/LandingPage.jsx';
+import LoginUserPage from './LoginUserPage.jsx';
+import LoginCompanyPage from './LoginCompanyPage.jsx';
+import RegisterUserPage from './RegisterUserPage.jsx';
+import RegisterCompanyPage from './RegisterCompanyPage.jsx';
+
 
 function App() {
 
@@ -13,6 +18,10 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/login-user" element={<LoginUserPage />} />
+        <Route path="/login-company" element={<LoginCompanyPage />} />
+        <Route path="/register-user" element={<RegisterUserPage />} />
+        <Route path="/register-company" element={<RegisterCompanyPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />

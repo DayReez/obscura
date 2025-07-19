@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import backgroundImage from './assets/arcane wallpaper 1.png';
 
-function LoginPage() {
+function LoginCompanyPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -97,4 +97,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default LoginCompanyPage;
