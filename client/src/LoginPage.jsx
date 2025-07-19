@@ -8,8 +8,14 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // ✅ Only allow Gmail addresses
+    if (!email.endsWith('@gmail.com')) {
+      alert('❌ Only Gmail addresses are allowed');
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:5000/auth/login', {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,14 +29,15 @@ function LoginPage() {
         alert('✅ Login successful!');
         localStorage.setItem('token', data.token);
         localStorage.setItem('userRole', data.role);
-        // Redirect user or update UI here if needed
+        localStorage.setItem('userName', data.name);
+        // Optional: Redirect or navigate to home/dashboard
       } else {
         alert(`❌ ${data.error || 'Login failed'}`);
       }
 
     } catch (err) {
-      alert('🚨 Error connecting to server');
-      console.error(err);
+      alert('🚨 Error connecting to server. Is the backend running?');
+      console.error('Connection error:', err);
     }
   };
 
@@ -64,7 +71,7 @@ function LoginPage() {
               type="email"
               className="form-control"
               id="email"
-              placeholder="Enter your email"
+              placeholder="Enter your Gmail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
