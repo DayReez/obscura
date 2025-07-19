@@ -2,8 +2,8 @@ import Header from "./Header.jsx"
 import ImageOverlayCard from './ImageOverlayCard.jsx'
 import Suggestions from "./suggestions.jsx";
 
-function App() {
-  
+function Pagetwo() {
+
     return(
       <>
         <Header />
@@ -14,4 +14,4 @@ function App() {
     );
 }
 
-export default App
+export default Pagetwo
