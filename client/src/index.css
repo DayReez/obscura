@@ -87,8 +87,9 @@ hr {
 }
 
 #featured-heading-div {
-  margin: 30px 70px;
-
+  margin: 30px 100px;
+  display: flex;
+  justify-content: space-between;
 }
 
 #home-page-hero {
