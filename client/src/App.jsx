@@ -17,8 +17,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/company" element={<Pagetwo />} />
-        <Route path="/book" element={<BookPage />} />              {/* ✅ Added BookPage route */}
-        <Route path="/book/confirm" element={<BookPageConfirm />} /> {/* ✅ Renamed confirm route for clarity */}
+        <Route path="/book" element={<BookPage />} /> {/* ✅ Add this route */}
+        <Route path="/confirm" element={<BookPageConfirm />} />
       </Routes>
     </Router>
   );
