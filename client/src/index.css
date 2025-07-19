@@ -73,9 +73,18 @@ hr {
 
 .tour-company-card-div {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   padding: 20px;
   place-items: start center;  /* Aligns items top & centers horizontally */
 }
 
+#featured-heading {
+  margin: 20px 0px;
+  margin-left: 73 px;
+}
+
+#hero-div {
+  width: 100%;
+  height: 200px;
+}
