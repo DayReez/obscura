@@ -1,14 +1,17 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const packageSchema = new mongoose.Schema({
-  companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  title: String,
-  location: String,
-  days: Number,
-  price: Number,
-  description: String,
-  itinerary: [String],
-  createdAt: { type: Date, default: Date.now }
+  title: { type: String, required: true },
+  location: { type: String, required: true },
+  days: { type: Number },
+  price: { type: Number, required: true },
+  description: { type: String },
+  itinerary: { type: String },
+  companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+}, {
+  timestamps: true
 });
 
-module.exports = mongoose.model('Package', packageSchema);
+const Package = mongoose.model('Package', packageSchema);
+
+export default Package;

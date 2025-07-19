@@ -5,16 +5,18 @@ import backgroundImage from './assets/arcane wallpaper 1.png';
 function LoginCompanyPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Example: Restrict to company domain if needed
     if (!email.endsWith('@gmail.com')) {
-      alert('❌ Only company emails (e.g., user@gmail.com) are allowed');
+      alert('❌ Only company emails ending with @gmail.com are allowed.');
       return;
     }
+
+    setLoading(true);
 
     try {
       const response = await fetch('http://localhost:5000/api/auth/company-login', {
@@ -27,15 +29,17 @@ function LoginCompanyPage() {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        localStorage.setItem('userRole', data.role);
+        localStorage.setItem('userRole', 'company');
         localStorage.setItem('companyName', data.companyName);
         navigate('/company/dashboard');
       } else {
-        alert(`❌ ${data.error || 'Login failed. Please verify your company credentials.'}`);
+        alert(`❌ ${data.error || 'Invalid credentials. Please try again.'}`);
       }
     } catch (err) {
-      alert('🚨 Cannot connect to the authentication server. Please contact support.');
       console.error('Connection error:', err);
+      alert('🚨 Cannot connect to the authentication server. Please check backend or try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,14 +86,20 @@ function LoginCompanyPage() {
               type="password"
               className="form-control"
               id="password"
-              placeholder="Enter your  password"
+              placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">Login to Dashboard</button>
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+            disabled={loading}
+          >
+            {loading ? 'Logging in...' : 'Login to Dashboard'}
+          </button>
         </form>
       </div>
     </div>

@@ -1,39 +1,51 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config(); // Load .env variables
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+// Route imports
+import authRoutes from './routes/auth.js';
+import packageRoutes from './routes/packageRoutes.js';
+
+dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+// === MIDDLEWARE ===
+app.use(cors({
+  origin: 'http://localhost:5173', // ✅ Replace with frontend URL
+  credentials: true
+}));
+app.use(express.json()); // Parse incoming JSON
 
-// MongoDB connection
+// === MONGO DB CONNECTION ===
 const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/travelbuddy';
+
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('✅ MongoDB connected successfully'))
-.catch((err) => {
-  console.error('❌ MongoDB connection failed:', err.message);
-  process.exit(1); // Optional: exit app if DB fails
-});
+  .then(() => console.log('✅ MongoDB connected successfully'))
+  .catch((err) => {
+    console.error('❌ MongoDB connection failed:', err.message);
+    process.exit(1);
+  });
 
-// Routes
-const authRoutes = require('./routes/authRoutes');
-const packageRoutes = require('./routes/packageRoutes'); // Adjust path as needed
+// === ROUTES ===
+app.use('/api/auth', authRoutes);         // ✅ Auth routes (user/company)
+app.use('/api/packages', packageRoutes);  // ✅ Travel package routes
 
-app.use('/api/auth', authRoutes);         // Auth endpoints: /signup, /login
-app.use('/api/packages', packageRoutes);  // Tour package endpoints
-
-// Default route
+// === ROOT ROUTE (Health Check) ===
 app.get('/', (req, res) => {
-  res.send('🌍 Welcome to the TravelBuddy API');
+  res.status(200).send('🌍 Welcome to the TravelBuddy API');
 });
 
-// Start server
+// === CATCH-ALL 404 HANDLER ===
+app.use((req, res) => {
+  res.status(404).json({ error: '🚫 Route not found' });
+});
+
+// === START SERVER ===
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);

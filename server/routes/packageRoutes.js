@@ -1,6 +1,7 @@
-const express = require('express');
-const Package = require('../models/Package');
-const jwt = require('jsonwebtoken');
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import Package from '../models/Package.js';
+
 const router = express.Router();
 
 // Middleware to verify JWT token
@@ -90,4 +91,4 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
