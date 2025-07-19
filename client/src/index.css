@@ -1,0 +1,55 @@
+.card{
+  border: none;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.170);
+  border-radius: 3px;
+}
+
+.card-img-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 200px;
+}
+
+.company-card-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-body{
+  padding: 0px 15px;
+  margin: 15px 0px;
+}
+
+.card-body-description{
+  background-color: rgba(168, 168, 168, 0.074);
+  margin: 0px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+hr {
+  padding: 0px;
+  margin: 0px;
+}
+
+.card-title {
+  font-family: Arial;
+  font-weight: 700;
+}
+
+.card-body-location {
+  display: flex;
+}
+
+.login-form-container {
+  width: 600px;
+  justify-content: center;
+  align-items: center;
+
+}
