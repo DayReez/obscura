@@ -10,6 +10,7 @@ import LoginUserPage from './LoginUserPage.jsx';
 import LoginCompanyPage from './LoginCompanyPage.jsx';
 import RegisterUserPage from './RegisterUserPage.jsx';
 import RegisterCompanyPage from './RegisterCompanyPage.jsx';
+import HomePageCompany from './HomePageCompany.jsx';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/confirm" element={<BookPageConfirm />} />
       </Routes>
     </Router>
+
   );
 }
 
