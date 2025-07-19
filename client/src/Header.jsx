@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 function Header() {
   // Simulating user data from database - replace with actual user data from your auth system
   const user = {
-    name: "John Doe"
+    name: "User"
   };
 
   return (

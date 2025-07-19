@@ -13,10 +13,10 @@ const app = express();
 
 // === MIDDLEWARE ===
 app.use(cors({
-  origin: 'http://localhost:5173', // ✅ Replace with frontend URL
-  credentials: true
+  origin: 'http://localhost:5173', // ✅ Frontend URL
+  credentials: true,
 }));
-app.use(express.json()); // Parse incoming JSON
+app.use(express.json()); // ✅ Parse incoming JSON
 
 // === MONGO DB CONNECTION ===
 const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/travelbuddy';
@@ -32,13 +32,18 @@ mongoose.connect(mongoURI, {
   });
 
 // === ROUTES ===
-app.use('/api/auth', authRoutes);         // ✅ Auth routes (user/company)
-app.use('/api/packages', packageRoutes);  // ✅ Travel package routes
+app.use('/api/auth', authRoutes);         // 🔐 Auth routes (user/company)
+app.use('/api/packages', packageRoutes);  // 🧳 Travel package routes
 
 // === ROOT ROUTE (Health Check) ===
 app.get('/', (req, res) => {
   res.status(200).send('🌍 Welcome to the TravelBuddy API');
 });
+
+// === DEBUG: List all routes at startup ===
+app._router.stack
+  .filter(r => r.route)
+  .forEach(r => console.log(`📍 ${Object.keys(r.route.methods)[0].toUpperCase()} ${r.route.path}`));
 
 // === CATCH-ALL 404 HANDLER ===
 app.use((req, res) => {
