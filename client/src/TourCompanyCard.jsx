@@ -13,7 +13,7 @@ function TourCompanyCard({companyLogo, companyName, companyLocation, companyDesc
             <div className="card-body">
                 <h5 className="card-title">{companyName}</h5>
                 <div className="card-body-location">
-                    <i class="bi bi-geo-alt-fill"></i>
+                    <i className="bi bi-geo-alt-fill"></i>
                     <p className="card-text" style={compLocationStyle}>{companyLocation}</p>
                 </div>
             </div>
