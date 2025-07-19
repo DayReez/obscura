@@ -5,7 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 // Import your logo image
 // If your logo is in src/assets/logo.png
-import logo from './react.svg'; // Adjust the path as needed
+import logo from './assets/react.svg'; // Adjust the path as needed
 
 function Header() {
   return (

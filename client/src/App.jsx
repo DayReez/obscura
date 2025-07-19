@@ -4,6 +4,7 @@ import companyLogo from './assets/react.svg';
 import LoginPage from './LoginPage.jsx';
 import RegisterPage from './RegisterPage.jsx';
 import HomePage from './HomePage.jsx';
+import PageTwo from './pagetwo.jsx';
 
 function App() {
 
