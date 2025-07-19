@@ -15,7 +15,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/company" element={<Pagetwo />} />
-        <Route path="/book" element={<BookPageConfirm />} /> {/* ✅ Add this route */}
+        <Route path="/book" element={<BookPage />} /> {/* ✅ Add this route */}
+        <Route path="/confirm" element={<BookPageConfirm />} />
       </Routes>
     </Router>
   );

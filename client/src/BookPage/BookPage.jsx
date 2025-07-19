@@ -1,24 +1,44 @@
-import { useLocation } from 'react-router-dom';
-import styles from './BookPage.module.css';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 
 function BookPage() {
   const location = useLocation();
-  const { title, description } = location.state || {};
+  const navigate = useNavigate();
+  const tour = location.state;
 
-  const handleConfirm = () => {
-    alert('Booking Confirmed!');
-  };
+  if (!tour) {
+    return <p className="text-center mt-5">No tour package selected. Please go back and try again.</p>;
+  }
+
+  const { title, description, shortDescription } = tour;
 
   return (
-    <div className={styles.bookPageContainer}>
-      <h2>Confirm Your Booking</h2>
-      <h3>{title}</h3>
-      <p>{description}</p>
-
-      <div className={styles.bookingActions}>
-        <button className={styles.confirmBtn} onClick={handleConfirm}>Confirm</button>
-      </div>
-    </div>
+    <Container className="mt-5">
+      <Card className="shadow-lg p-4">
+        <Card.Body>
+          <Card.Title className="fs-3 fw-bold mb-3">{title}</Card.Title>
+          <Card.Text className="mb-2"><strong>Short Description:</strong> {shortDescription}</Card.Text>
+          <Card.Text className="mb-3"><strong>Full Details:</strong> {description}</Card.Text>
+          <hr />
+          <p className="fw-semibold">Would you like to confirm your booking?</p>
+          <Button 
+            variant="success" 
+            className="me-2"
+            onClick={() => navigate('/confirm', { state: tour })}
+          >
+            Confirm Booking
+          </Button>
+          <Button 
+            variant="secondary"
+            onClick={() => navigate(-1)}
+          >
+            Cancel
+          </Button>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }
 
