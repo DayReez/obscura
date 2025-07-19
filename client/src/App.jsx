@@ -6,12 +6,14 @@ import RegisterPage from './RegisterPage.jsx';
 import Pagetwo from './Pagetwo.jsx';
 import BookPage from './BookPage/BookPage.jsx'; // ✅ Import BookPage
 import BookPageConfirm from './BookPageConfirm/BookPageConfirm.jsx';
+import LandingPage from './LandingPage/LandingPage.jsx';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/company" element={<Pagetwo />} />

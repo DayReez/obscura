@@ -1,0 +1,53 @@
+.landingPage {
+  height: 100vh;
+  background-image: url('./assets/arcane wallpaper 1.png'); /* Use your own image path */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landingCard {
+  background: rgba(255, 255, 255, 0.1); /* translucent white */
+  backdrop-filter: blur(10px);
+  color: black; /* keep text white */
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  max-width: 400px;
+  width: 90%;
+}
+
+.landingActions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.btn {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: white;
+  color: #2193b0;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #e0e0e0;
+}
+
+.btnSecondary {
+  background-color: #2193b0;
+  color: white;
+}
+
+.btnSecondary:hover {
+  background-color: #1a789a;
+}
