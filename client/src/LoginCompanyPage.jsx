@@ -19,7 +19,7 @@ function LoginCompanyPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/company-login', {
+      const response = await fetch('http://localhost:5000/api/auth/company-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -31,7 +31,7 @@ function LoginCompanyPage() {
         localStorage.setItem('token', data.token);
         localStorage.setItem('userRole', 'company');
         localStorage.setItem('companyName', data.companyName);
-        navigate('/company/dashboard');
+        navigate('/home-company');
       } else {
         alert(`❌ ${data.error || 'Invalid credentials. Please try again.'}`);
       }
