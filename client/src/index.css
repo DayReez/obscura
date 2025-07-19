@@ -69,3 +69,13 @@ hr {
   justify-content: center;
   align-items: center;
 }
+
+
+.tour-company-card-div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+  place-items: start center;  /* Aligns items top & centers horizontally */
+}
+

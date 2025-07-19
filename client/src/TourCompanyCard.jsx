@@ -5,7 +5,7 @@ function TourCompanyCard({companyLogo, companyName, companyLocation, companyDesc
     };
 
     return (
-
+        
         <div className="card" style={{width: "18rem"}}>
             <div className="card-img-container">
                 <img src={companyLogo} className="card-img-top company-card-logo" alt="company logo" />
