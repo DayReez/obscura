@@ -1,36 +1,42 @@
 import React, { useState } from 'react';
-import backgroundImage from './assets/arcane wallpaper 1.png'; // Adjust path if needed
+import { useNavigate } from 'react-router-dom';
+import backgroundImage from './assets/arcane wallpaper 1.png';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!email.endsWith('@gmail.com')) {
+      alert('❌ Only Gmail addresses are allowed');
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:5000/auth/login', {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        alert('✅ Login successful!');
+        // ✅ Removed the alert line here
         localStorage.setItem('token', data.token);
         localStorage.setItem('userRole', data.role);
-        // Redirect user or update UI here if needed
+        localStorage.setItem('userName', data.name);
+        navigate('/home'); // 🔁 Redirect to HomePage.jsx
       } else {
         alert(`❌ ${data.error || 'Login failed'}`);
       }
 
     } catch (err) {
-      alert('🚨 Error connecting to server');
-      console.error(err);
+      alert('🚨 Error connecting to server. Is the backend running?');
+      console.error('Connection error:', err);
     }
   };
 
@@ -64,7 +70,7 @@ function LoginPage() {
               type="email"
               className="form-control"
               id="email"
-              placeholder="Enter your email"
+              placeholder="Enter your Gmail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
