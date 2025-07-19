@@ -1,12 +1,15 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './BookPageConfirm.module.css';
 
-function BookPage() {
+function BookPageConfirm() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { title, description } = location.state || {};
 
   const handleConfirm = () => {
     alert('Booking Confirmed!');
+    // ✅ Navigate back to BookPage with state preserved
+    navigate('/book', { state: location.state });
   };
 
   return (
@@ -22,4 +25,4 @@ function BookPage() {
   );
 }
 
-export default BookPage;
+export default BookPageConfirm;
