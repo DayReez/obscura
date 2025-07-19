@@ -10,13 +10,14 @@ function LoginCompanyPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Example: Restrict to company domain if needed
     if (!email.endsWith('@gmail.com')) {
-      alert('❌ Only Gmail addresses are allowed');
+      alert('❌ Only company emails (e.g., user@gmail.com) are allowed');
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch('http://localhost:5000/api/auth/company-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -25,17 +26,15 @@ function LoginCompanyPage() {
       const data = await response.json();
 
       if (response.ok) {
-        // ✅ Removed the alert line here
         localStorage.setItem('token', data.token);
         localStorage.setItem('userRole', data.role);
-        localStorage.setItem('userName', data.name);
-        navigate('/home'); // 🔁 Redirect to HomePage.jsx
+        localStorage.setItem('companyName', data.companyName);
+        navigate('/company/dashboard');
       } else {
-        alert(`❌ ${data.error || 'Login failed'}`);
+        alert(`❌ ${data.error || 'Login failed. Please verify your company credentials.'}`);
       }
-
     } catch (err) {
-      alert('🚨 Error connecting to server. Is the backend running?');
+      alert('🚨 Cannot connect to the authentication server. Please contact support.');
       console.error('Connection error:', err);
     }
   };
@@ -62,15 +61,15 @@ function LoginCompanyPage() {
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.25)',
         }}
       >
-        <h2 className="mb-4 text-center text-white">Login</h2>
+        <h2 className="mb-4 text-center text-white">Company Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="email" className="form-label text-white">Email address</label>
+            <label htmlFor="email" className="form-label text-white">Company Email</label>
             <input
               type="email"
               className="form-control"
               id="email"
-              placeholder="Enter your Gmail"
+              placeholder="Enter official company email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -83,14 +82,14 @@ function LoginCompanyPage() {
               type="password"
               className="form-control"
               id="password"
-              placeholder="Enter password"
+              placeholder="Enter your  password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">Submit</button>
+          <button type="submit" className="btn btn-primary w-100">Login to Dashboard</button>
         </form>
       </div>
     </div>
