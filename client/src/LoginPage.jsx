@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import backgroundImage from './assets/arcane wallpaper 1.png'; // Adjust path if needed
+import { useNavigate } from 'react-router-dom';
+import backgroundImage from './assets/arcane wallpaper 1.png';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ Only allow Gmail addresses
     if (!email.endsWith('@gmail.com')) {
       alert('❌ Only Gmail addresses are allowed');
       return;
@@ -17,20 +18,18 @@ function LoginPage() {
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        alert('✅ Login successful!');
+        // ✅ Removed the alert line here
         localStorage.setItem('token', data.token);
         localStorage.setItem('userRole', data.role);
         localStorage.setItem('userName', data.name);
-        // Optional: Redirect or navigate to home/dashboard
+        navigate('/home'); // 🔁 Redirect to HomePage.jsx
       } else {
         alert(`❌ ${data.error || 'Login failed'}`);
       }
