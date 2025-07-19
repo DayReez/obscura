@@ -1,0 +1,22 @@
+.bookPageContainer {
+  padding: 40px;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.confirmBtn {
+  padding: 12px 24px;
+  font-size: 18px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.bookingActions {
+  display: flex;
+  justify-content: center;
+}

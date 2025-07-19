@@ -5,6 +5,7 @@ import LoginPage from './LoginPage.jsx';
 import RegisterPage from './RegisterPage.jsx';
 import Pagetwo from './Pagetwo.jsx';
 import BookPage from './BookPage/BookPage.jsx'; // ✅ Import BookPage
+import BookPageConfirm from './BookPageConfirm/BookPageConfirm.jsx';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/company" element={<Pagetwo />} />
-        <Route path="/book" element={<BookPage />} /> {/* ✅ Add this route */}
+        <Route path="/book" element={<BookPageConfirm />} /> {/* ✅ Add this route */}
       </Routes>
     </Router>
   );
