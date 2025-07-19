@@ -43,7 +43,7 @@ function RegisterPage() {
 
           <div className="mb-3">
             <label htmlFor="exampleInputPassword1" className="form-label text-white">Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword1" />
+            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Enter password" />
           </div>
 
           <div className="mb-3 form-check">
