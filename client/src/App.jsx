@@ -13,6 +13,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </Router>
+
   );
 }
 
