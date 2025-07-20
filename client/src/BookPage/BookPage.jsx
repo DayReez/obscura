@@ -13,7 +13,8 @@ function BookPage() {
     return <p className="text-center mt-5">No tour package selected. Please go back and try again.</p>;
   }
 
-  const { title, description, shortDescription } = tour;
+  // ✨ EXTRACTED 'price' from tour object ✨
+  const { title, description, shortDescription, price } = tour;
 
   return (
     <>
@@ -24,12 +25,15 @@ function BookPage() {
             <Card.Title className="fs-3 fw-bold mb-3">{title}</Card.Title>
             <Card.Text className="mb-2"><strong>Short Description:</strong> {shortDescription}</Card.Text>
             <Card.Text className="mb-3"><strong>Full Details:</strong> {description}</Card.Text>
+            {/* ✨ Display price on the BookPage as well ✨ */}
+            <Card.Text className="mb-3"><strong>Price:</strong> {price}</Card.Text>
             <hr />
             <p className="fw-semibold">Would you like to confirm your booking?</p>
             <Button 
               variant="success" 
               className="me-2"
-              onClick={() => navigate('/confirm', { state: tour })}
+              // ✨ PASSED 'price' along to BookPageConfirm ✨
+              onClick={() => navigate('/confirm', { state: { ...tour, price: price } })}
             >
               Confirm Booking
             </Button>
@@ -43,7 +47,6 @@ function BookPage() {
         </Card>
       </Container>
     </>
-    
   );
 }
 

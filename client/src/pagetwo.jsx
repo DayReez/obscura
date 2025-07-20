@@ -5,14 +5,20 @@ import Suggestions from "./suggestions.jsx";
 
 function Pagetwo() {
   const location = useLocation();
-  // ✨ EXTRACTED 'logo' from location.state ✨
-  const { name, location: companyLocation, logo } = location.state || {};
+  // ✨ EXTRACTED 'email' and 'phoneNumber' from location.state ✨
+  const { name, location: companyLocation, logo, email, phoneNumber } = location.state || {};
 
   return (
     <>
       <Header />
-      {/* ✨ PASSED 'logo' as imageUrl prop to ImageOverlayCard ✨ */}
-      <ImageOverlayCard companyName={name} companyLocation={companyLocation} imageUrl={logo} />
+      {/* ✨ PASSED email and phoneNumber as props to ImageOverlayCard ✨ */}
+      <ImageOverlayCard 
+        companyName={name} 
+        companyLocation={companyLocation} 
+        imageUrl={logo} 
+        companyEmail={email} 
+        companyPhoneNumber={phoneNumber} 
+      />
       <Suggestions />
     </>
   );
