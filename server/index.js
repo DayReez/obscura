@@ -3,9 +3,10 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-// Route imports
+// === ROUTE IMPORTS ===
 import authRoutes from './routes/auth.js';
 import packageRoutes from './routes/packageRoutes.js';
+import companyProfileRoutes from './routes/CompanyProfile.js'; // ✅ Company profile route
 
 dotenv.config();
 
@@ -13,39 +14,44 @@ const app = express();
 
 // === MIDDLEWARE ===
 app.use(cors({
-  origin: 'http://localhost:5173', // ✅ Frontend URL
+  origin: 'http://localhost:5173', // ✅ React frontend
   credentials: true,
 }));
 app.use(express.json()); // ✅ Parse incoming JSON
 
-// === MONGO DB CONNECTION ===
+// === MONGODB CONNECTION ===
 const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/travelbuddy';
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-  .then(() => console.log('✅ MongoDB connected successfully'))
-  .catch((err) => {
-    console.error('❌ MongoDB connection failed:', err.message);
-    process.exit(1);
-  });
+.then(() => console.log('✅ MongoDB connected successfully'))
+.catch((err) => {
+  console.error('❌ MongoDB connection failed:', err.message);
+  process.exit(1);
+});
 
 // === ROUTES ===
-app.use('/api/auth', authRoutes);         // 🔐 Auth routes (user/company)
-app.use('/api/packages', packageRoutes);  // 🧳 Travel package routes
+app.use('/api/auth', authRoutes);                          // 🔐 Auth routes (user & company)
+app.use('/api/packages', packageRoutes);                   // 🧳 Package routes
+app.use('/api/company-profile', companyProfileRoutes);     // 🏢 Company profile routes
 
-// === ROOT ROUTE (Health Check) ===
+// === HEALTH CHECK ===
 app.get('/', (req, res) => {
   res.status(200).send('🌍 Welcome to the TravelBuddy API');
 });
 
-// === DEBUG: List all routes at startup ===
+// === DEBUG: List all registered routes ===
+console.log('\n📋 Registered API Routes:');
 app._router.stack
-  .filter(r => r.route)
-  .forEach(r => console.log(`📍 ${Object.keys(r.route.methods)[0].toUpperCase()} ${r.route.path}`));
+  .filter(r => r.route && r.route.path)
+  .forEach(r => {
+    const method = Object.keys(r.route.methods)[0].toUpperCase();
+    console.log(`📍 ${method} ${r.route.path}`);
+  });
 
-// === CATCH-ALL 404 HANDLER ===
+// === 404 HANDLER ===
 app.use((req, res) => {
   res.status(404).json({ error: '🚫 Route not found' });
 });

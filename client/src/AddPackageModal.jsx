@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Spinner } from 'react-bootstrap';
 
 function AddPackageModal({ show, handleClose }) {
-  const [companyName, setCompanyName] = useState('');
+  const [title, setTitle] = useState('');
   const [location, setLocation] = useState('');
-  const [destination, setDestination] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
+  const [days, setDays] = useState('');
   const [pitstops, setPitstops] = useState(['']);
+  const [loading, setLoading] = useState(false);
 
   const handlePitstopChange = (index, value) => {
     const updated = [...pitstops];
@@ -24,30 +25,65 @@ function AddPackageModal({ show, handleClose }) {
     setPitstops(updated);
   };
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     const packageData = {
-//       companyName,
-//       location,
-//       price,
-//       description,
-//       pitstops,
-//     };
-//     console.log('Submitting package:', packageData);
-//     handleClose();
+  const resetForm = () => {
+    setTitle('');
+    setLocation('');
+    setPrice('');
+    setDays('');
+    setDescription('');
+    setPitstops(['']);
+  };
 
-    const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (pitstops.some((stop) => stop.trim() === '')) {
+      return alert('Please fill in all pitstop fields.');
+    }
+
     const packageData = {
-        companyName,
-        location,         // Start location
-        destination,      // ✅ End location
-        price,
-        description,
-        pitstops,
+      title,
+      location,
+      price: Number(price),
+      days: Number(days),
+      description,
+      itinerary: pitstops,
     };
-    console.log('Submitting package:', packageData);
-    handleClose();
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      return alert('Authentication token not found. Please log in again.');
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/packages/upload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(packageData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.error('Upload failed:', result);
+        alert(result.error || 'Upload failed. Please try again.');
+      } else {
+        alert('✅ Package uploaded successfully!');
+        resetForm();
+        handleClose();
+      }
+    } catch (err) {
+      console.error('Error uploading:', err);
+      alert('Something went wrong while uploading the package.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -57,66 +93,75 @@ function AddPackageModal({ show, handleClose }) {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-
-          {/* <Form.Group controlId="location" className="mt-3">
-            <Form.Label>Start location</Form.Label>
+          <Form.Group className="mb-3">
+            <Form.Label>Package Title</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter start location"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Start Location</Form.Label>
+            <Form.Control
+              type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               required
             />
           </Form.Group>
-          <Form.Group controlId="location" className="mt-3">
-            <Form.Label>End location</Form.Label>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Number of Days</Form.Label>
             <Form.Control
-              type="text"
-              placeholder="Enter destination"
-              value={location}
-              onChange={(e) => setDestination(e.target.value)}
+              type="number"
+              min="1"
+              value={days}
+              onChange={(e) => setDays(e.target.value)}
               required
             />
-          </Form.Group> */}
+          </Form.Group>
 
-            <Form.Group controlId="startLocation" className="mt-3">
-                <Form.Label>Start location</Form.Label>
-                <Form.Control
-                    type="text"
-                    placeholder="Enter start location"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    required
-                />
-                </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Price (INR)</Form.Label>
+            <Form.Control
+              type="number"
+              min="0"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+          </Form.Group>
 
-                <Form.Group controlId="endLocation" className="mt-3">
-                <Form.Label>End location</Form.Label>
-                <Form.Control
-                    type="text"
-                    placeholder="Enter destination"
-                    value={destination}
-                    onChange={(e) => setDestination(e.target.value)}
-                    required
-                />
-            </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </Form.Group>
 
-          <Form.Group className="mt-3">
-            <Form.Label>Pitstops</Form.Label>
+          <Form.Group className="mb-3">
+            <Form.Label>Itinerary / Pitstops</Form.Label>
             {pitstops.map((stop, index) => (
               <div key={index} className="d-flex align-items-center mb-2">
                 <Form.Control
                   type="text"
-                  placeholder={`Pitstop ${index + 1}`}
                   value={stop}
                   onChange={(e) => handlePitstopChange(index, e.target.value)}
+                  required
                 />
                 {pitstops.length > 1 && (
                   <Button
                     variant="danger"
                     size="sm"
-                    onClick={() => handleRemovePitstop(index)}
                     className="ms-2"
+                    onClick={() => handleRemovePitstop(index)}
                   >
                     ✕
                   </Button>
@@ -128,36 +173,19 @@ function AddPackageModal({ show, handleClose }) {
             </Button>
           </Form.Group>
 
-          <Form.Group controlId="price" className="mt-3">
-            <Form.Label>Price</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter price in INR"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group controlId="description" className="mt-3">
-            <Form.Label>Package Description</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              placeholder="Enter package details"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Form.Group>
-
-          
-
-          <div className="d-flex justify-content-end mt-4">
-            <Button variant="secondary" onClick={handleClose} className="me-2">
+          <div className="d-flex justify-content-end">
+            <Button variant="secondary" onClick={handleClose} className="me-2" disabled={loading}>
               Cancel
             </Button>
-            <Button variant="primary" type="submit">
-              Add Package
+            <Button type="submit" variant="primary" disabled={loading}>
+              {loading ? (
+                <>
+                  <Spinner animation="border" size="sm" className="me-2" />
+                  Submitting...
+                </>
+              ) : (
+                'Submit Package'
+              )}
             </Button>
           </div>
         </Form>

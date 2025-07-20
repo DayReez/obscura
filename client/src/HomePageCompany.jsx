@@ -3,7 +3,7 @@ import { Button, Card, Form, Image } from 'react-bootstrap';
 import AddPackageModal from './AddPackageModal.jsx';
 import AddPackageRequestButton from './AddPackageRequestButton.jsx';
 
-function CompanyDashboard() {
+function HomePageCompany() {
   const [packages, setPackages] = useState([]);
   const [proposals, setProposals] = useState([
     { id: 1, customerName: 'Alice', packageDetails: 'Trip to Manali - 3 Days, 2 Nights', status: 'pending' },
@@ -12,19 +12,48 @@ function CompanyDashboard() {
 
   const [showAddModal, setShowAddModal] = useState(false);
 
-  // State for company profile details
-  const [companyName, setCompanyName] = useState('Travel Co. Inc.'); // Default company name
-  const [editingName, setEditingName] = useState(false); // State to manage name editing
-  const [companyPhoto, setCompanyPhoto] = useState('https://via.placeholder.com/150'); // Default placeholder image
+  // Company profile state
+  const [companyName, setCompanyName] = useState('Travel Co. Inc.');
+  const [editingName, setEditingName] = useState(false);
+  const [companyPhoto, setCompanyPhoto] = useState('https://via.placeholder.com/150');
   const [companyDescription, setCompanyDescription] = useState('Welcome to our travel company! We offer exciting and memorable travel experiences.');
-  const [editingDescription, setEditingDescription] = useState(false); // State to manage description editing
+  const [editingDescription, setEditingDescription] = useState(false);
+
+  const userId = '64f1c8c9e2d7a23aab12abcd'; // ⚠️ Replace with dynamic logged-in company ID
+
+  const saveProfileToDB = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/company-profile/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          name: companyName,
+          description: companyDescription,
+          photo: companyPhoto,
+          packages,
+          proposals,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Failed to save');
+      console.log('✅ Profile saved to DB');
+    } catch (err) {
+      console.error('❌ Error saving profile:', err.message);
+    }
+  };
 
   const handleDeletePackage = (id) => {
-    setPackages(packages.filter(pkg => pkg.id !== id));
+    const updated = packages.filter(pkg => pkg.id !== id);
+    setPackages(updated);
+    saveProfileToDB();
   };
 
   const handleProposalAction = (id, action) => {
-    setProposals(proposals.map(p => p.id === id ? { ...p, status: action } : p));
+    const updated = proposals.map(p => p.id === id ? { ...p, status: action } : p);
+    setProposals(updated);
+    saveProfileToDB();
   };
 
   const handlePhotoChange = (event) => {
@@ -32,27 +61,28 @@ function CompanyDashboard() {
       const reader = new FileReader();
       reader.onload = (e) => {
         setCompanyPhoto(e.target.result);
+        saveProfileToDB();
       };
       reader.readAsDataURL(event.target.files[0]);
     }
   };
 
-  // Handlers for company name editing
   const handleNameChange = (event) => {
     setCompanyName(event.target.value);
   };
 
   const handleSaveName = () => {
     setEditingName(false);
+    saveProfileToDB();
   };
 
-  // Handlers for description editing
   const handleDescriptionChange = (event) => {
     setCompanyDescription(event.target.value);
   };
 
   const handleSaveDescription = () => {
     setEditingDescription(false);
+    saveProfileToDB();
   };
 
   return (
@@ -70,8 +100,8 @@ function CompanyDashboard() {
               <Form.Control type="file" accept="image/*" onChange={handlePhotoChange} className="d-none" />
             </Form.Group>
           </div>
-          <div className="flex-grow-1"> {/* This div will take remaining space */}
-            {/* Company Name Section */}
+          <div className="flex-grow-1">
+            {/* Company Name */}
             <div className="mb-3">
               <h5>
                 Company Name:{' '}
@@ -82,13 +112,11 @@ function CompanyDashboard() {
                     onChange={handleNameChange}
                     onBlur={handleSaveName}
                     onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        handleSaveName();
-                      }
+                      if (e.key === 'Enter') handleSaveName();
                     }}
                     autoFocus
                     className="d-inline-block w-auto ms-2"
-                    style={{maxWidth: '300px'}} // Limit width of input
+                    style={{ maxWidth: '300px' }}
                   />
                 ) : (
                   <>
@@ -103,7 +131,7 @@ function CompanyDashboard() {
               </h5>
             </div>
 
-            {/* Company Description Section */}
+            {/* Company Description */}
             <div>
               <h5>Description</h5>
               {editingDescription ? (
@@ -127,6 +155,7 @@ function CompanyDashboard() {
         </div>
       </div>
 
+      {/* Package Management */}
       <div className="mb-5">
         <h4>Manage Packages</h4>
         <AddPackageRequestButton onClick={() => setShowAddModal(true)} label="Add package" />
@@ -143,6 +172,7 @@ function CompanyDashboard() {
         </div>
       </div>
 
+      {/* Customer Proposals */}
       <div>
         <h4>Customer Proposed Packages</h4>
         {proposals.length === 0 && <p>No customer proposals.</p>}
@@ -165,9 +195,16 @@ function CompanyDashboard() {
         ))}
       </div>
 
-      <AddPackageModal show={showAddModal} handleClose={() => setShowAddModal(false)} />
+      <AddPackageModal
+        show={showAddModal}
+        handleClose={() => setShowAddModal(false)}
+        onPackageAdd={(newPackage) => {
+          setPackages([...packages, newPackage]);
+          saveProfileToDB();
+        }}
+      />
     </div>
   );
 }
 
-export default CompanyDashboard;
+export default HomePageCompany;
