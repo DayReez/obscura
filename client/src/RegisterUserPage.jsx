@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ Added
 import backgroundImage from './assets/arcane wallpaper 1.png';
 
 function RegisterPage() {
@@ -11,6 +12,7 @@ function RegisterPage() {
   });
 
   const [message, setMessage] = useState('');
+  const navigate = useNavigate(); // ✅ Added
 
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
@@ -54,6 +56,7 @@ function RegisterPage() {
       if (res.ok) {
         setMessage('✅ Registered successfully!');
         setFormData({ name: '', email: '', phone: '', password: '', termsAccepted: false });
+        navigate('/home'); // ✅ Redirect to /home
       } else {
         setMessage(data.error || '❌ Registration failed.');
       }

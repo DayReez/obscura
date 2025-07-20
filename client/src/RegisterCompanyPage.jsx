@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import backgroundImage from './assets/arcane wallpaper 1.png';
 
 function RegisterCompanyPage() {
@@ -13,6 +14,7 @@ function RegisterCompanyPage() {
   });
 
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
@@ -58,6 +60,7 @@ function RegisterCompanyPage() {
           industry: '',
           termsAccepted: false,
         });
+        navigate('/home-company'); // ✅ navigate after registration
       } else {
         setMessage(data.error || '❌ Registration failed.');
       }
@@ -148,8 +151,6 @@ function RegisterCompanyPage() {
               required
             />
           </div>
-
-          
 
           <div className="mb-3 form-check">
             <input
