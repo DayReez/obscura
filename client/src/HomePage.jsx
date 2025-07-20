@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddPackageModal from './AddPackageModal';
 import Header from './Header.jsx';
 import HomePageHero from './HomePageHero.jsx';
@@ -15,6 +15,22 @@ function HomePage() {
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+
+  useEffect(() => {
+    window.chatbaseConfig = {
+      chatbotId: "tuupvZia1Xmy1BRt2Whvq",
+    };
+
+    const script = document.createElement('script');
+    script.src = "https://www.chatbase.co/embed.min.js";
+    script.defer = true;
+    script.setAttribute("chatbotId", "tuupvZia1Xmy1BRt2Whvq");
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <>

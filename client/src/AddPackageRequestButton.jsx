@@ -1,10 +1,9 @@
-function AddPackageRequestButton({ onClick }) {
+function AddPackageRequestButton({ onClick, label = "Add Package" }) {
   return (
     <button type="button" className="btn btn-primary" onClick={onClick}>
-      Add Package <i className="bi bi-plus"></i>
+      {label}
     </button>
   );
 }
 
 export default AddPackageRequestButton;
-    

@@ -24,14 +24,27 @@ function AddPackageModal({ show, handleClose }) {
     setPitstops(updated);
   };
 
-  const handleSubmit = (e) => {
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     const packageData = {
+//       companyName,
+//       location,
+//       price,
+//       description,
+//       pitstops,
+//     };
+//     console.log('Submitting package:', packageData);
+//     handleClose();
+
+    const handleSubmit = (e) => {
     e.preventDefault();
     const packageData = {
-      companyName,
-      location,
-      price,
-      description,
-      pitstops,
+        companyName,
+        location,         // Start location
+        destination,      // ✅ End location
+        price,
+        description,
+        pitstops,
     };
     console.log('Submitting package:', packageData);
     handleClose();
@@ -45,8 +58,8 @@ function AddPackageModal({ show, handleClose }) {
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
 
-          <Form.Group controlId="location" className="mt-3">
-            <Form.Label>Location</Form.Label>
+          {/* <Form.Group controlId="location" className="mt-3">
+            <Form.Label>Start location</Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter start location"
@@ -56,7 +69,7 @@ function AddPackageModal({ show, handleClose }) {
             />
           </Form.Group>
           <Form.Group controlId="location" className="mt-3">
-            <Form.Label>Location</Form.Label>
+            <Form.Label>End location</Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter destination"
@@ -64,7 +77,30 @@ function AddPackageModal({ show, handleClose }) {
               onChange={(e) => setDestination(e.target.value)}
               required
             />
-          </Form.Group>
+          </Form.Group> */}
+
+            <Form.Group controlId="startLocation" className="mt-3">
+                <Form.Label>Start location</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter start location"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    required
+                />
+                </Form.Group>
+
+                <Form.Group controlId="endLocation" className="mt-3">
+                <Form.Label>End location</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter destination"
+                    value={destination}
+                    onChange={(e) => setDestination(e.target.value)}
+                    required
+                />
+            </Form.Group>
+
           <Form.Group className="mt-3">
             <Form.Label>Pitstops</Form.Label>
             {pitstops.map((stop, index) => (
@@ -96,7 +132,7 @@ function AddPackageModal({ show, handleClose }) {
             <Form.Label>Price</Form.Label>
             <Form.Control
               type="number"
-              placeholder="Enter price in USD"
+              placeholder="Enter price in INR"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               required
