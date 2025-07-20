@@ -5,12 +5,14 @@ import Suggestions from "./suggestions.jsx";
 
 function Pagetwo() {
   const location = useLocation();
-  const { name, location: companyLocation } = location.state || {};
+  // ✨ EXTRACTED 'logo' from location.state ✨
+  const { name, location: companyLocation, logo } = location.state || {};
 
   return (
     <>
       <Header />
-      <ImageOverlayCard companyName={name} companyLocation={companyLocation} />
+      {/* ✨ PASSED 'logo' as imageUrl prop to ImageOverlayCard ✨ */}
+      <ImageOverlayCard companyName={name} companyLocation={companyLocation} imageUrl={logo} />
       <Suggestions />
     </>
   );

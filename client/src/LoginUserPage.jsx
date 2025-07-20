@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import backgroundImage from './assets/arcane wallpaper 1.png';
+import backgroundImage from './assets/70777189-travel-hd-wallpaper.jpg';
 
 function LoginUserPage() {
   const [email, setEmail] = useState('');

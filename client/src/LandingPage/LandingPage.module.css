@@ -1,17 +1,24 @@
 .landingPage {
   height: 100vh;
-  background-image: url('./assets/arcane wallpaper 1.png'); /* Use your own image path */
-  background-size: cover;
-  background-position: center;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+
+  /* Corrected Background Image Properties */
+  background-image: url('../assets/LandPageBanner.png'); /* Corrected path and added .png extension */
+  background-size: cover; /* Ensures the image covers the entire container */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  
+  /* Optional: Add a subtle overlay for better text readability */
+  background-blend-mode: overlay; /* or multiply, screen, etc. */
+  background-color: rgba(0, 0, 0, 0.3); /* Dark overlay for text readability over image */
 }
 
 .landingCard {
-  background: rgba(255, 255, 255, 0.1); /* translucent white */
-  backdrop-filter: blur(10px);
-  color: black; /* keep text white */
+  background: rgba(255, 255, 255, 0.827); /* Changed to solid white */
+  /* backdrop-filter: blur(10px); Removed glassy effect */
+  color: #333; /* Changed text color to a dark grey for readability on white */
   border-radius: 16px;
   padding: 40px;
   text-align: center;
@@ -45,7 +52,7 @@
 
 .btnSecondary {
   background-color: #2193b0;
-  color: white;
+  color: rgba(255, 255, 255, 0.751);
 }
 
 .btnSecondary:hover {
