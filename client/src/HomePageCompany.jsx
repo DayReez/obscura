@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Card, Form, Modal } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
+import AddPackageModal from './AddPackageModal.jsx';
+import AddPackageRequestButton from './AddPackageRequestButton.jsx';
 
 function CompanyDashboard() {
   const [packages, setPackages] = useState([]);
@@ -8,14 +10,7 @@ function CompanyDashboard() {
     { id: 2, customerName: 'Bob', packageDetails: 'Ladakh Adventure - 5 Days', status: 'pending' },
   ]);
 
-  const [newPackage, setNewPackage] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
-
-  const handleAddPackage = () => {
-    setPackages([...packages, { id: Date.now(), details: newPackage }]);
-    setNewPackage('');
-    setShowAddModal(false);
-  };
 
   const handleDeletePackage = (id) => {
     setPackages(packages.filter(pkg => pkg.id !== id));
@@ -31,7 +26,7 @@ function CompanyDashboard() {
 
       <div className="mb-5">
         <h4>Manage Packages</h4>
-        <Button variant="primary" onClick={() => setShowAddModal(true)}>Add Package</Button>
+        <AddPackageRequestButton onClick={() => setShowAddModal(true)} />
         <div className="mt-3">
           {packages.length === 0 && <p>No packages added yet.</p>}
           {packages.map(pkg => (
@@ -67,28 +62,7 @@ function CompanyDashboard() {
         ))}
       </div>
 
-      <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add New Package</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group>
-              <Form.Label>Package Details</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                value={newPackage}
-                onChange={(e) => setNewPackage(e.target.value)}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowAddModal(false)}>Cancel</Button>
-          <Button variant="primary" onClick={handleAddPackage}>Add Package</Button>
-        </Modal.Footer>
-      </Modal>
+      <AddPackageModal show={showAddModal} handleClose={() => setShowAddModal(false)} />
     </div>
   );
 }
